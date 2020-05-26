@@ -97,19 +97,22 @@
   </div>
 
   <script>
-    // Remember index of last checked box
+    // Remember index of last two checked boxes
     let latestCheck = null;
+    let penultimateCheck = null;
     const list = Array.from(document.querySelectorAll('input[type=checkbox]'))
-    console.log(list);
     list.forEach(item => {
       item.addEventListener('change', function () {
         // check memory is only 1 check deep, an uncheck clears the memory
-        item.checked ? latestCheck = list.indexOf(item) : latestCheck = null;
+        item.checked ? [latestCheck, penultimateCheck] = [list.indexOf(item), latestCheck] : latestCheck = penultimateCheck = null;
+        if (latestCheck && penultimateCheck) {
+          console.log(`from ${penultimateCheck} to ${latestCheck}`);
+        }
       })
     })
 
   // TODO Detect Shift keydown and keyup
-  // TODO If Shift keydown, check all checkboxes in between
+  // TODO If Shift keydown, check all checkboxes in between (inclusive in-case last box is already checked)
   </script>
 </body>
 
